@@ -1,0 +1,3 @@
+from scapy.all import conf, get_if_list
+print(get_if_list())
+print("Using iface:", conf.iface)
