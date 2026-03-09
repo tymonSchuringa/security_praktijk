@@ -1,0 +1,85 @@
+START PROGRAM
+
+IMPORT scapy tools (ARP, Ether, srp)
+IMPORT socket module
+IMPORT nmap module
+
+CREATE empty list alive_hosts
+CREATE empty table mac_table
+
+HOST DISCOVERY (ARP)
+FOR each IP from 192.168.0.1 to 192.168.0.49:
+
+    build ARP request for IP
+    build ethernet broadcast packet
+    combine packets
+
+    send packet and wait for reply
+
+    IF reply received:
+        add IP to alive_hosts
+        save MAC address in mac_table
+
+
+IF no hosts found:
+    set alive_hosts message = "no hosts found"
+    set mac_table = "unknown"
+
+PRINT alive hosts
+PRINT mac table
+
+PORT SCANNING
+IF alive_hosts is a list:
+
+    define port range 1–1024
+
+    FOR each host in alive_hosts:
+
+        CREATE empty list open_ports
+
+        FOR each port in selected_ports:
+
+            create TCP socket
+            set timeout
+
+            try to connect to host:port
+
+            IF connection succeeds:
+                add port to open_ports
+
+            close socket
+
+HOSTNAME LOOKUP
+        TRY reverse DNS lookup
+
+        IF failed:
+            hostname = "unknown"
+
+SERVICE DETECTION (-sV)
+        CREATE empty services table
+
+        IF open_ports exist:
+
+            run nmap service detection
+
+            FOR each detected port:
+                save service name
+
+OS DETECTION (-O)
+        set OS = "unknown"
+
+        IF open_ports exist:
+
+            run nmap OS detection
+
+            IF OS match exists:
+                save best OS guess
+
+PRINT RESULTS
+        print host information:
+            host IP
+            hostname
+            open ports
+            services
+            OS
+END PROGRAM
