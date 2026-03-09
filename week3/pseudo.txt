@@ -1,0 +1,45 @@
+connect to server
+
+
+function time_guess(username, guess)
+    measure response time multiple times
+    return median response time
+
+
+function find_length(username)
+    for length from 1 to 15
+        guess = "a" repeated length times
+        time = time_guess(username, guess)
+
+        if time > best_time
+            best_time = time
+            best_length = length
+
+    return length with longest response time
+
+
+function crack_password(username, length)
+
+    password = ""
+
+    for each position in password
+        best_char = None
+        best_time = 0
+
+        for each character in charset
+            guess = password + character + filler "a"
+            time = time_guess(username, guess)
+
+            if time > best_time
+                best_time = time
+                best_char = character
+
+        add best_char to password
+
+    return password
+
+
+length = find_length(username)
+password = crack_password(username, length)
+
+print password 
