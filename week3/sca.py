@@ -83,7 +83,7 @@ async def crack_password(username, length, tries=50, variance=0.001):
 
         for c in CHARSET:
             guess = found + c + ("a" * (length - len(found) - 1))
-            med = await time_guess(username, guess, tries, variance=variance)
+            med = await time_guess(username, guess, tries, variance)
 
             if med > best_time:
                 best_time = med
